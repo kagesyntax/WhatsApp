@@ -22,14 +22,14 @@ pub fn get_chats() -> Vec<ChatInfo> {
             message: "Kimi K2.5 just dropped — open-source agent swarms.".to_string(),
             time: "8:30 pm".to_string(),
             status: MessageStatus::Read,
-            image: None,
+            image: Some(asset!("/assets/users/yang-zhilin.jpeg")),
         },
         ChatInfo {
             name: "Zhang Peng".to_string(),
             message: "GLM-5 just hit 90% on MMLU.".to_string(),
             time: "7:15 pm".to_string(),
             status: MessageStatus::Delivered,
-            image: None,
+            image: Some(asset!("/assets/users/zhang-peng.jpeg")),
         },
         ChatInfo {
             name: "Sam Altman".to_string(),
