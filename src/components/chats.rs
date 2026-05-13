@@ -2,8 +2,6 @@ use dioxus::prelude::*;
 use dioxus_free_icons::icons::ld_icons::{LdCheck, LdCheckCheck};
 use dioxus_free_icons::Icon;
 
-const PROFILE_PICTURE: Asset = asset!("/assets/profile.png");
-
 #[derive(Clone, PartialEq)]
 pub enum MessageStatus {
     Sent,
@@ -17,6 +15,7 @@ pub struct ChatInfo {
     pub message: String,
     pub time: String,
     pub status: MessageStatus,
+    pub image: Option<Asset>,
 }
 
 #[component]
@@ -30,10 +29,23 @@ pub fn Chats(chats: Vec<ChatInfo>, on_chat_click: EventHandler<usize>) -> Elemen
                     onclick: move |_| on_chat_click.call(i),
                     div {
                         class: "flex-shrink-0",
-                        img {
-                            class: "w-13 h-13 rounded-full object-cover bg-gray-180",
-                            src: PROFILE_PICTURE,
-                            alt: "Profile Picture"
+                        {
+                            let first = chat.name.chars().next().unwrap_or('?');
+                            match &chat.image {
+                                Some(asset) => rsx! {
+                                    img {
+                                        class: "w-13 h-13 rounded-full object-cover bg-gray-180",
+                                        src: *asset,
+                                        alt: "{chat.name}"
+                                    }
+                                },
+                                None => rsx! {
+                                    div {
+                                        class: "w-13 h-13 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 text-lg font-semibold",
+                                        "{first}"
+                                    }
+                                },
+                            }
                         }
                     }
                     div {

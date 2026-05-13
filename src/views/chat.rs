@@ -7,7 +7,6 @@ use dioxus_free_icons::icons::ld_icons::{
 };
 use dioxus_free_icons::Icon;
 
-const PROFILE_PICTURE: Asset = asset!("/assets/profile.png");
 const CHAT_BACKGROUND: Asset = asset!("/assets/background.png");
 
 // ── Chat Screen ──
@@ -39,7 +38,17 @@ pub fn Chat(index: usize) -> Element {
                                 onclick: move |_| nav.go_back(),
                                 Icon { width: 20, height: 20, fill: "gray", icon: LdArrowLeft }
                             }
-                            img { class: "w-10 h-10 rounded-full object-cover", src: PROFILE_PICTURE }
+                            {
+                                let first = chat.name.chars().next().unwrap_or('?');
+                                match &chat.image {
+                                    Some(asset) => rsx! {
+                                        img { class: "w-10 h-10 rounded-full object-cover", src: *asset }
+                                    },
+                                    None => rsx! {
+                                        div { class: "w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 text-sm font-semibold", "{first}" }
+                                    },
+                                }
+                            }
                             h1 { class: "text-md text-gray font-extralight", "{chat.name}" }
                         }
 
